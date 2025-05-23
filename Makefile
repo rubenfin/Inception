@@ -1,19 +1,35 @@
-.PHONY: all build up down ps clean re
+.PHONY: all build up run down ps clean fclean re
 
+all: build up
 
 build:
-	docker-compose build
+	@echo "$(GREEN)Building docker!$(DEFAULT)"
+	@docker-compose build
 
 up:
-	docker-compose up -d
+	@echo "$(GREEN)Running docker!$(DEFAULT)"
+	@docker-compose -p inception up -d
+
+run:
+	@docker-compose run -it
 
 down:
-	docker-compose down
+	@echo "$(YELLOW)Stop running docker!$(DEFAULT)"
+	@docker-compose down
 
 ps:
-	docker-compose ps
+	@docker-compose ps
 
 clean: down
-	docker system prune -a
+	@echo "$(RED)Cleaning docker!$(DEFAULT)"
+	@docker-compose down --volumes --remove-orphans
+	@docker image prune -f
+	
+fclean: clean
 
-re: clean all
+re: fclean all
+
+RED = \033[1;31m
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+DEFAULT = \033[0m

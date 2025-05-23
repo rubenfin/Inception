@@ -1,11 +1,26 @@
 services:
-  db:
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    depends_on:
+      - mariadb
+    build:
+      context: ./srcs/requirements/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "443:443"
+
+  mariadb:
+    container_name: mariadb
     image: mariadb
+    build:
+      context: ./srcs/requirements/mariadb
+      dockerfile: Dockerfile
     restart: always
     environment:
        MARIADB_ROOT_PASSWORD: example
-
-  nginx:
-    image: nginx
-    ports:
-      - "443:443"
+      
+networks:
+  inception:
+    name: inception

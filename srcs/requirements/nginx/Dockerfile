@@ -1,7 +1,9 @@
-FROM nginx:alpine
+FROM debian:bullseye
 
-COPY static-html-directory /usr/share/nginx/html
+RUN apt update && apt install -y nginx && apt clean
 
+COPY default.conf /etc/nginx/nginx.conf
 
-# Expose port 80
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
