@@ -1,4 +1,4 @@
-.PHONY: all build up run down ps clean fclean re
+.PHONY: all build up down ps clean fclean re
 
 all: build up
 
@@ -8,10 +8,7 @@ build:
 
 up:
 	@echo "$(GREEN)Running docker!$(DEFAULT)"
-	@docker-compose -p inception up -d
-
-run:
-	@docker-compose run -it
+	@docker-compose -p inception up -d --build
 
 down:
 	@echo "$(YELLOW)Stop running docker!$(DEFAULT)"
